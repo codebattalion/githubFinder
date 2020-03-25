@@ -1,8 +1,14 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import Spinner from "../Layout/Spinner";
 import { Link } from "react-router-dom";
 import Repos from "../Repos/Repos";
-const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
+import GithubContext from "../../Context/github/githubContext";
+
+const User = ({ loading, match }) => {
+  const githubContext = useContext(GithubContext);
+
+  const { repos, getUser, getUserRepos, user } = githubContext;
+
   useEffect(() => {
     getUser(match.params.login);
     getUserRepos(match.params.login);
@@ -16,13 +22,11 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
     bio,
     login,
     company,
-    blog,
     website,
     html_url,
     followers,
     following,
     public_repos,
-    public_gists,
     hireable
   } = user;
 
@@ -79,10 +83,10 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
               )}
             </li>
             <li>
-              {blog && (
+              {website && (
                 <Fragment>
                   <strong>Website: </strong>
-                  {blog}
+                  {website}
                 </Fragment>
               )}
             </li>
